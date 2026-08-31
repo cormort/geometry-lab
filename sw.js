@@ -1,10 +1,9 @@
-const CACHE_NAME = 'geometry-lab-v1';
+const CACHE_NAME = 'geometry-lab-v2';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './style.css',
     './main.js',
-    'https://polyfill.io/v3/polyfill.min.js?features=es6',
     'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
     'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css',
     'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
@@ -15,6 +14,15 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => cache.addAll(ASSETS_TO_CACHE))
+    );
+});
+
+self.addEventListener('activate', (event) => {
+    // caches.match() searches every cache, so stale versions must be deleted
+    event.waitUntil(
+        caches.keys().then((keys) =>
+            Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+        )
     );
 });
 

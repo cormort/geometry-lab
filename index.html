@@ -8,7 +8,7 @@
     <!-- SEO & Metadata -->
     <meta
       name="description"
-      content="互動式幾何模型學習網。探索國中幾何九大核心工具，包含等高模型、蝴蝶模型、鳥頭模型等動態實驗。"
+      content="互動式幾何模型學習網。涵蓋國小到國中的 19 個幾何主題：等高模型、蝴蝶模型、畢氏定理、圓周角、線對稱、柱體體積等動態實驗。"
     />
     <meta
       name="keywords"
@@ -18,7 +18,6 @@
     <meta property="og:description" content="互動式幾何探索工具" />
 
     <!-- Libraries -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script
       id="MathJax-script"
       async
@@ -46,10 +45,10 @@
         <!-- Moon Icon -->
     </button>
     <h1>幾何模型實驗室</h1>
-      <div class="subtitle">國中幾何核心觀念 · 動態互動探索</div>
+      <div class="subtitle">國小 × 國中幾何核心觀念 · 動態互動探索</div>
       
       <div class="search-container">
-          <input type="text" id="searchInput" placeholder="搜尋模型..." aria-label="搜尋模型">
+          <input type="text" id="searchInput" placeholder="搜尋模型（可輸入 國小 / 國中）..." aria-label="搜尋模型">
           <button id="favFilterBtn" aria-label="顯示收藏" class="btn-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
           </button>
@@ -78,15 +77,7 @@
         <div class="modal-body-grid">
           <div id="jxgbox" class="jxgbox"></div>
           <div class="info-panel">
-            <p
-              id="mDesc"
-              style="
-                font-size: 1.1em;
-                color: #475569;
-                line-height: 1.8;
-                margin-top: 0;
-              "
-            ></p>
+            <p id="mDesc"></p>
             <div class="formula-box">
               <strong>核心公式：</strong>
               <div id="mFormula" style="margin-top: 10px"></div>

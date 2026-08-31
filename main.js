@@ -173,7 +173,6 @@ let geometryData = [
         thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="100,20 30,130 170,130" fill="rgba(241, 245, 249, 1)" stroke="#4f46e5" stroke-width="2"/><polygon points="100,20 60,83 125,59" fill="rgba(250, 204, 21, 0.5)" stroke="#4f46e5" stroke-width="1.5"/><text x="95" y="15" font-size="12">A</text><text x="20" y="140" font-size="12">B</text><text x="175" y="140" font-size="12">C</text><text x="45" y="85" font-size="12">D</text><text x="130" y="60" font-size="12">E</text></svg>`,
         initBoard: function(id) {
             const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-2, 10, 12, -2], axis:false, showCopyright:false});
-            JxgUtils.createGrid(board);
             var pA = board.create('point', [5, 9], {name:'A', fixed:true, size:3, color:'#333'});
             var pB = board.create('point', [1, 1], {name:'B', fixed:true, size:3, color:'#333'});
             var pC = board.create('point', [9, 1], {name:'C', fixed:true, size:3, color:'#333'});
@@ -371,6 +370,297 @@ let geometryData = [
 
             return board;
         }
+    },
+    {
+        id: 10,
+        level: "國小",
+        name: "三角形內角和 (Angle Sum)",
+        shortDesc: "任意三角形的三個內角，加起來永遠是 180°。",
+        fullDesc: "不論三角形怎麼變形（銳角、直角、鈍角），三個內角的度數總和恆為 180°。這是因為過一個頂點作對邊的平行線，三個角剛好拼成一條直線。",
+        formula: "$$ \\angle A + \\angle B + \\angle C = 180^\\circ $$",
+        tips: "拖曳三個紅色頂點任意變形，盯著右上角的總和——它永遠是 180.0°。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="100,25 25,125 175,125" fill="none" stroke="#4f46e5" stroke-width="2"/><path d="M 85 45 A 25 25 0 0 0 115 45" fill="rgba(239,68,68,0.35)"/><path d="M 45 125 A 25 25 0 0 0 40 105" fill="rgba(59,130,246,0.35)"/><path d="M 155 125 A 25 25 0 0 1 160 105" fill="rgba(34,197,94,0.35)"/><text x="70" y="80" font-size="20" fill="#4f46e5" font-weight="bold">180°</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-2, 9, 12, -2], axis:false, showCopyright:false});
+            var pA = board.create('point', [5, 7], {name:'A', size:5, color:'#ef4444'});
+            var pB = board.create('point', [1, 1], {name:'B', size:5, color:'#ef4444'});
+            var pC = board.create('point', [9, 1], {name:'C', size:5, color:'#ef4444'});
+            board.create('polygon', [pA, pB, pC], {fillColor:'#6366f1', fillOpacity:0.12, strokeColor:'#4f46e5'});
+            var aA = board.create('angle', [pB, pA, pC], {radius:1, fillColor:'#ef4444', name:''});
+            var aB = board.create('angle', [pC, pB, pA], {radius:1, fillColor:'#3b82f6', name:''});
+            var aC = board.create('angle', [pA, pC, pB], {radius:1, fillColor:'#22c55e', name:''});
+            var deg = function(a){ return a.Value() * 180 / Math.PI; };
+            board.create('text', [-1.5, 8.5, function(){
+                return "∠A = " + deg(aA).toFixed(1) + "°　∠B = " + deg(aB).toFixed(1) + "°　∠C = " + deg(aC).toFixed(1) + "°";
+            }], {fontSize:14});
+            board.create('text', [-1.5, 7.6, function(){
+                return "總和 = " + (deg(aA)+deg(aB)+deg(aC)).toFixed(1) + "°";
+            }], {fontSize:18, color:'#4f46e5', fontWeight:'bold'});
+            return board;
+        }
+    },
+    {
+        id: 11,
+        level: "國中",
+        name: "畢氏定理 (Pythagorean)",
+        shortDesc: "直角三角形：兩股平方和等於斜邊平方。",
+        fullDesc: "在直角三角形中，以三邊各作一個正方形，兩股上的正方形面積相加，恰好等於斜邊上正方形的面積。這是面積形式的畢氏定理。",
+        formula: "$$ a^2 + b^2 = c^2 $$",
+        tips: "拖曳 A（上下）與 B（左右）改變兩股長度。無論怎麼拖，黃 + 藍 永遠等於綠。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="70,100 70,60 100,100" fill="rgba(79,70,229,0.15)" stroke="#4f46e5" stroke-width="2"/><rect x="70" y="100" width="30" height="30" fill="rgba(250,204,21,0.5)" stroke="#4f46e5"/><rect x="30" y="60" width="40" height="40" fill="rgba(59,130,246,0.4)" stroke="#4f46e5"/><polygon points="70,60 100,100 140,70 110,30" fill="rgba(34,197,94,0.4)" stroke="#4f46e5"/><text x="40" y="145" font-size="16" fill="#4f46e5" font-weight="bold">a²+b²=c²</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-7, 9, 11, -7], axis:false, showCopyright:false});
+            var pO = board.create('point', [0, 0], {name:'C', size:3, fixed:true, color:'#333'});
+            var yAxis = board.create('line', [[0,0],[0,1]], {visible:false});
+            var xAxis = board.create('line', [[0,0],[1,0]], {visible:false});
+            var pA = board.create('glider', [0, 3, yAxis], {name:'A', size:5, color:'#ef4444'});
+            var pB = board.create('glider', [4, 0, xAxis], {name:'B', size:5, color:'#ef4444'});
+            var a = function(){ return pA.Y(); };   // 股 CA
+            var b = function(){ return pB.X(); };   // 股 CB
+            board.create('polygon', [pO, pB, pA], {fillColor:'#6366f1', fillOpacity:0.15, strokeColor:'#4f46e5'});
+            // 股 b 上的正方形（往下）
+            var q1 = board.create('point', [b, function(){ return -b(); }], {visible:false});
+            var q2 = board.create('point', [0, function(){ return -b(); }], {visible:false});
+            var sqB = board.create('polygon', [pO, pB, q1, q2], {fillColor:'#facc15', fillOpacity:0.5, strokeColor:'#eab308', vertices:{visible:false}});
+            // 股 a 上的正方形（往左）
+            var q3 = board.create('point', [function(){ return -a(); }, a], {visible:false});
+            var q4 = board.create('point', [function(){ return -a(); }, 0], {visible:false});
+            var sqA = board.create('polygon', [pO, pA, q3, q4], {fillColor:'#3b82f6', fillOpacity:0.4, strokeColor:'#2563eb', vertices:{visible:false}});
+            // 斜邊上的正方形（往外）
+            var q5 = board.create('point', [function(){ return b() + a(); }, function(){ return b(); }], {visible:false});
+            var q6 = board.create('point', [function(){ return a(); }, function(){ return a() + b(); }], {visible:false});
+            var sqC = board.create('polygon', [pB, q5, q6, pA], {fillColor:'#22c55e', fillOpacity:0.4, strokeColor:'#16a34a', vertices:{visible:false}});
+            board.create('text', [-6.5, 8.5, function(){
+                return "a² = " + sqA.Area().toFixed(1) + "　+　b² = " + sqB.Area().toFixed(1) + "　=　" + (sqA.Area()+sqB.Area()).toFixed(1);
+            }], {fontSize:14, color:'#2563eb'});
+            board.create('text', [-6.5, 7.6, function(){ return "c² = " + sqC.Area().toFixed(1); }], {fontSize:18, color:'#16a34a', fontWeight:'bold'});
+            return board;
+        }
+    },
+    {
+        id: 12,
+        level: "國小",
+        name: "圓周率與圓面積 (Circle)",
+        shortDesc: "周長 = 2πr，面積 = πr²。",
+        fullDesc: "圓的周長與直徑的比值固定為圓周率 π ≈ 3.14159。把圓切成很多小扇形再交錯拼起來，會接近一個底為半周長、高為半徑的長方形，於是面積 = πr²。",
+        formula: "$$ C = 2\\pi r,\\quad S = \\pi r^2 $$",
+        tips: "拖曳 P 點改變半徑，觀察「周長 ÷ 直徑」這個比值：不管圓多大，它永遠是 3.14…。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><circle cx="100" cy="75" r="55" fill="rgba(79,70,229,0.12)" stroke="#4f46e5" stroke-width="2"/><line x1="100" y1="75" x2="155" y2="75" stroke="#ef4444" stroke-width="2"/><circle cx="100" cy="75" r="3" fill="#333"/><text x="120" y="68" font-size="14" fill="#ef4444">r</text><text x="60" y="145" font-size="16" fill="#4f46e5" font-weight="bold">C÷d = π</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-8, 8, 8, -8], axis:false, showCopyright:false});
+            var pO = board.create('point', [0, 0], {name:'O', size:3, fixed:true, color:'#333'});
+            var pP = board.create('point', [4, 0], {name:'P', size:5, color:'#ef4444'});
+            var circ = board.create('circle', [pO, pP], {strokeColor:'#4f46e5', strokeWidth:2, fillColor:'#6366f1', fillOpacity:0.12});
+            board.create('segment', [pO, pP], {strokeColor:'#ef4444', strokeWidth:2, name:'r', withLabel:true});
+            board.create('text', [-7.5, 7.2, function(){ var r = circ.Radius(); return "半徑 r = " + r.toFixed(2); }], {fontSize:15});
+            board.create('text', [-7.5, 6.3, function(){ var r = circ.Radius(); return "周長 C = 2πr = " + (2*Math.PI*r).toFixed(2); }], {fontSize:15, color:'#4f46e5'});
+            board.create('text', [-7.5, 5.4, function(){ var r = circ.Radius(); return "面積 S = πr² = " + (Math.PI*r*r).toFixed(2); }], {fontSize:15, color:'#16a34a'});
+            board.create('text', [-7.5, -7, function(){ var r = circ.Radius(); return "C ÷ 直徑 = " + (2*Math.PI*r/(2*r)).toFixed(5) + " （永遠是 π）"; }], {fontSize:15, color:'#ef4444', fontWeight:'bold'});
+            return board;
+        }
+    },
+    {
+        id: 13,
+        level: "國小",
+        name: "平行四邊形面積 (Shear)",
+        shortDesc: "剪一刀移過去，就變成長方形：底 × 高。",
+        fullDesc: "把平行四邊形左邊的直角三角形剪下、平移到右邊，就拼成一個長方形。所以平行四邊形面積 = 底 × 高，與傾斜程度完全無關。",
+        formula: "$$ S = b \\times h $$",
+        tips: "拖曳頂點 D 左右滑動來改變傾斜度（高不變）。面積數字完全不動——這就是「等積變形」。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="30,120 130,120 170,40 70,40" fill="rgba(139,92,246,0.25)" stroke="#4f46e5" stroke-width="2"/><line x1="70" y1="40" x2="70" y2="120" stroke="#ef4444" stroke-dasharray="4"/><text x="76" y="85" font-size="14" fill="#ef4444">h</text><text x="75" y="138" font-size="14" fill="#4f46e5">b</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-3, 8, 13, -2], axis:false, showCopyright:false});
+            var pA = board.create('point', [0, 0], {name:'A', size:3, fixed:true, color:'#333'});
+            var pB = board.create('point', [6, 0], {name:'B', size:3, fixed:true, color:'#333'});
+            var topLine = board.create('line', [[0,4],[1,4]], {strokeColor:'#cbd5e1', dash:2});
+            var pD = board.create('glider', [2, 4, topLine], {name:'D', size:6, color:'#ef4444'});
+            var pC = board.create('point', [function(){ return pD.X() + 6; }, 4], {name:'C', size:3, color:'#94a3b8', fixed:true});
+            var poly = board.create('polygon', [pA, pB, pC, pD], {fillColor:'#8b5cf6', fillOpacity:0.3, strokeColor:'#4f46e5'});
+            board.create('segment', [pD, [function(){ return pD.X(); }, 0]], {strokeColor:'#ef4444', dash:2});
+            board.create('text', [-2.5, 7, function(){ return "底 b = 6　高 h = 4"; }], {fontSize:15});
+            board.create('text', [-2.5, 6.1, function(){ return "面積 = b × h = " + poly.Area().toFixed(2); }], {fontSize:18, color:'#4f46e5', fontWeight:'bold'});
+            board.create('text', [-2.5, -1.2, "拖曳 D 改變傾斜——面積不變"], {fontSize:14, color:'#ef4444'});
+            return board;
+        }
+    },
+    {
+        id: 14,
+        level: "國小",
+        name: "梯形面積 (Trapezoid)",
+        shortDesc: "(上底 + 下底) × 高 ÷ 2。",
+        fullDesc: "兩個全等的梯形倒過來拼在一起，會變成一個底為 (上底 + 下底)、高為 h 的平行四邊形，所以一個梯形的面積是它的一半。",
+        formula: "$$ S = \\frac{(a + b) \\times h}{2} $$",
+        tips: "拖曳上底的兩個端點改變 a，或拖曳右下角改變 b。核對公式算出來的值與實際面積是否一致。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="20,120 180,120 140,40 60,40" fill="rgba(20,184,166,0.25)" stroke="#4f46e5" stroke-width="2"/><line x1="60" y1="40" x2="60" y2="120" stroke="#ef4444" stroke-dasharray="4"/><text x="66" y="85" font-size="14" fill="#ef4444">h</text><text x="95" y="35" font-size="14" fill="#4f46e5">a</text><text x="95" y="138" font-size="14" fill="#4f46e5">b</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-3, 8, 13, -2], axis:false, showCopyright:false});
+            var topLine = board.create('line', [[0,4],[1,4]], {strokeColor:'#cbd5e1', dash:2});
+            var botLine = board.create('line', [[0,0],[1,0]], {strokeColor:'#cbd5e1', dash:2});
+            var pA = board.create('point', [0, 0], {name:'A', size:3, fixed:true, color:'#333'});
+            var pB = board.create('glider', [10, 0, botLine], {name:'B', size:5, color:'#ef4444'});
+            var pC = board.create('glider', [8, 4, topLine], {name:'C', size:5, color:'#ef4444'});
+            var pD = board.create('glider', [3, 4, topLine], {name:'D', size:5, color:'#ef4444'});
+            var poly = board.create('polygon', [pA, pB, pC, pD], {fillColor:'#14b8a6', fillOpacity:0.3, strokeColor:'#0d9488'});
+            board.create('text', [-2.5, 7.2, function(){
+                return "上底 a = " + pD.Dist(pC).toFixed(2) + "　下底 b = " + pA.Dist(pB).toFixed(2) + "　高 h = 4";
+            }], {fontSize:14});
+            board.create('text', [-2.5, 6.3, function(){
+                var a = pD.Dist(pC), b = pA.Dist(pB);
+                return "(a+b)×h÷2 = " + ((a+b)*4/2).toFixed(2) + "　｜　實際面積 = " + poly.Area().toFixed(2);
+            }], {fontSize:16, color:'#0d9488', fontWeight:'bold'});
+            return board;
+        }
+    },
+    {
+        id: 15,
+        level: "國中",
+        name: "圓周角定理 (Inscribed Angle)",
+        shortDesc: "同弧所對的圓周角，是圓心角的一半。",
+        fullDesc: "在同一個圓上，弧 AB 所對的圓心角 ∠AOB 恆為圓周角 ∠APB 的兩倍。因此不管 P 在優弧上怎麼移動，圓周角都一樣大（同弧圓周角相等）。",
+        formula: "$$ \\angle APB = \\frac{1}{2}\\angle AOB $$",
+        tips: "沿著圓拖曳 P 點：圓周角的度數紋風不動。再拖曳 A 或 B 改變弧長，看兩個角是否維持 2 倍關係。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><circle cx="100" cy="75" r="58" fill="none" stroke="#4f46e5" stroke-width="2"/><circle cx="100" cy="75" r="3" fill="#333"/><line x1="100" y1="75" x2="52" y2="108" stroke="#ef4444" stroke-width="2"/><line x1="100" y1="75" x2="148" y2="108" stroke="#ef4444" stroke-width="2"/><line x1="100" y1="17" x2="52" y2="108" stroke="#3b82f6" stroke-width="2"/><line x1="100" y1="17" x2="148" y2="108" stroke="#3b82f6" stroke-width="2"/><text x="88" y="70" font-size="13" fill="#ef4444">2θ</text><text x="92" y="40" font-size="13" fill="#3b82f6">θ</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-8, 8, 8, -8], axis:false, showCopyright:false});
+            var pO = board.create('point', [0, 0], {name:'O', size:3, fixed:true, color:'#333'});
+            var circ = board.create('circle', [pO, 5], {strokeColor:'#4f46e5', strokeWidth:2});
+            var pA = board.create('glider', [-4.33, -2.5, circ], {name:'A', size:5, color:'#ef4444'});
+            var pB = board.create('glider', [4.33, -2.5, circ], {name:'B', size:5, color:'#ef4444'});
+            var pP = board.create('glider', [0, 5, circ], {name:'P', size:6, color:'#3b82f6'});
+            board.create('segment', [pO, pA], {strokeColor:'#ef4444'});
+            board.create('segment', [pO, pB], {strokeColor:'#ef4444'});
+            board.create('segment', [pP, pA], {strokeColor:'#3b82f6'});
+            board.create('segment', [pP, pB], {strokeColor:'#3b82f6'});
+            var aCenter = board.create('angle', [pA, pO, pB], {radius:1.2, fillColor:'#ef4444', name:''});
+            var aInsc = board.create('angle', [pA, pP, pB], {radius:1.2, fillColor:'#3b82f6', name:''});
+            var deg = function(a){ var d = a.Value() * 180 / Math.PI; return d > 180 ? 360 - d : d; };
+            board.create('text', [-7.5, 7.2, function(){ return "圓心角 ∠AOB = " + deg(aCenter).toFixed(1) + "°"; }], {fontSize:15, color:'#ef4444'});
+            board.create('text', [-7.5, 6.3, function(){ return "圓周角 ∠APB = " + deg(aInsc).toFixed(1) + "°"; }], {fontSize:15, color:'#3b82f6'});
+            board.create('text', [-7.5, -7, function(){ return "圓心角 ÷ 圓周角 = " + (deg(aCenter)/deg(aInsc)).toFixed(2); }], {fontSize:16, fontWeight:'bold'});
+            return board;
+        }
+    },
+    {
+        id: 16,
+        level: "國中",
+        name: "三角形外角 (Exterior Angle)",
+        shortDesc: "一個外角等於不相鄰的兩個內角和。",
+        fullDesc: "延長三角形的一邊所形成的外角，等於另外兩個「不相鄰內角」的和。這是內角和 180° 的直接推論：外角 = 180° − 鄰角 = 其餘兩內角和。",
+        formula: "$$ \\angle ACD = \\angle A + \\angle B $$",
+        tips: "拖曳 A、B 讓三角形變形，比較「外角」與「∠A + ∠B」這兩個數字。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="80,30 20,120 130,120" fill="rgba(79,70,229,0.12)" stroke="#4f46e5" stroke-width="2"/><line x1="130" y1="120" x2="190" y2="120" stroke="#4f46e5" stroke-width="2" stroke-dasharray="4"/><path d="M 155 120 A 25 25 0 0 0 140 98" fill="rgba(245,158,11,0.5)"/><text x="150" y="112" font-size="13" fill="#d97706">外角</text><text x="72" y="26" font-size="12">A</text><text x="10" y="132" font-size="12">B</text><text x="128" y="135" font-size="12">C</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-2, 9, 13, -2], axis:false, showCopyright:false});
+            var pB = board.create('point', [1, 1], {name:'B', size:5, color:'#ef4444'});
+            var pC = board.create('point', [8, 1], {name:'C', size:3, fixed:true, color:'#333'});
+            var pA = board.create('point', [4, 6], {name:'A', size:5, color:'#ef4444'});
+            board.create('polygon', [pA, pB, pC], {fillColor:'#6366f1', fillOpacity:0.12, strokeColor:'#4f46e5'});
+            var pD = board.create('point', [function(){ return pC.X() + (pC.X()-pB.X())*0.5; }, function(){ return pC.Y() + (pC.Y()-pB.Y())*0.5; }],
+                {name:'D', size:2, color:'#94a3b8', fixed:true});
+            board.create('segment', [pC, pD], {strokeColor:'#94a3b8', dash:2});
+            var aA = board.create('angle', [pB, pA, pC], {radius:1, fillColor:'#3b82f6', name:''});
+            var aB = board.create('angle', [pC, pB, pA], {radius:1, fillColor:'#22c55e', name:''});
+            var aExt = board.create('angle', [pA, pC, pD], {radius:1.2, fillColor:'#f59e0b', name:''});
+            var deg = function(a){ return a.Value() * 180 / Math.PI; };
+            board.create('text', [-1.5, 8.5, function(){
+                return "∠A = " + deg(aA).toFixed(1) + "°　+　∠B = " + deg(aB).toFixed(1) + "°　=　" + (deg(aA)+deg(aB)).toFixed(1) + "°";
+            }], {fontSize:15, color:'#2563eb'});
+            board.create('text', [-1.5, 7.6, function(){ return "外角 ∠ACD = " + deg(aExt).toFixed(1) + "°"; }], {fontSize:18, color:'#d97706', fontWeight:'bold'});
+            return board;
+        }
+    },
+    {
+        id: 17,
+        level: "國中",
+        name: "相似與縮放 (Similarity)",
+        shortDesc: "邊長放大 k 倍，面積會放大 k² 倍。",
+        fullDesc: "把圖形以一點為中心放大 k 倍（位似變換），對應邊長都變 k 倍，但面積變成 k² 倍。這也是為什麼比例尺 1:2 的地圖，面積只有實際的四分之一。",
+        formula: "$$ \\frac{S'}{S} = k^2 $$",
+        tips: "拖曳滑桿改變倍率 k，特別留意 k = 2 時面積變 4 倍、k = 3 時變 9 倍。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="40,110 80,110 60,80" fill="rgba(59,130,246,0.4)" stroke="#2563eb" stroke-width="2"/><polygon points="40,110 120,110 80,50" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/><circle cx="40" cy="110" r="4" fill="#333"/><text x="110" y="40" font-size="16" fill="#ef4444" font-weight="bold">k² 倍</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-2, 11, 13, -3], axis:false, showCopyright:false});
+            var k = board.create('slider', [[0, -2], [8, -2], [0.5, 2, 3]], {name:'k', snapWidth:0.1, precision:1});
+            var pO = board.create('point', [0, 0], {name:'O', size:4, fixed:true, color:'#333'});
+            var pA = board.create('point', [3, 1], {name:'A', size:4, color:'#3b82f6'});
+            var pB = board.create('point', [4, 4], {name:'B', size:4, color:'#3b82f6'});
+            var small = board.create('polygon', [pO, pA, pB], {fillColor:'#3b82f6', fillOpacity:0.4, strokeColor:'#2563eb'});
+            var scale = function(p){
+                return board.create('point',
+                    [function(){ return pO.X() + (p.X()-pO.X())*k.Value(); },
+                     function(){ return pO.Y() + (p.Y()-pO.Y())*k.Value(); }],
+                    {visible:false});
+            };
+            var big = board.create('polygon', [pO, scale(pA), scale(pB)],
+                {fillColor:'#ef4444', fillOpacity:0.15, strokeColor:'#ef4444', dash:2, vertices:{visible:false}});
+            board.create('text', [-1.5, 10.3, function(){ return "倍率 k = " + k.Value().toFixed(1); }], {fontSize:16, fontWeight:'bold'});
+            board.create('text', [-1.5, 9.4, function(){
+                return "面積比 = " + (big.Area()/small.Area()).toFixed(2) + "　｜　k² = " + (k.Value()*k.Value()).toFixed(2);
+            }], {fontSize:16, color:'#ef4444', fontWeight:'bold'});
+            return board;
+        }
+    },
+    {
+        id: 18,
+        level: "國小",
+        name: "線對稱 (Reflection)",
+        shortDesc: "沿對稱軸對摺，兩邊完全重合。",
+        fullDesc: "線對稱圖形沿著對稱軸對摺後兩半完全重合。對稱點與原點到對稱軸的距離相等，且連線垂直於對稱軸。",
+        formula: "$$ \\overline{PM} = \\overline{P'M},\\quad \\overline{PP'} \\perp \\ell $$",
+        tips: "拖曳左邊藍色圖形的任一頂點，右邊紅色的鏡像會同步變化。注意對應點到虛線的距離永遠相等。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><line x1="100" y1="10" x2="100" y2="140" stroke="#94a3b8" stroke-dasharray="5" stroke-width="2"/><polygon points="30,120 80,120 45,50" fill="rgba(59,130,246,0.4)" stroke="#2563eb" stroke-width="2"/><polygon points="170,120 120,120 155,50" fill="rgba(239,68,68,0.3)" stroke="#ef4444" stroke-width="2"/></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-7, 8, 7, -4], axis:false, showCopyright:false});
+            var axis = board.create('line', [[0,-3],[0,7]], {strokeColor:'#94a3b8', dash:2, strokeWidth:2, fixed:true, name:'ℓ', withLabel:true});
+            var p1 = board.create('point', [-5, 0], {name:'A', size:5, color:'#3b82f6'});
+            var p2 = board.create('point', [-1, 0], {name:'B', size:5, color:'#3b82f6'});
+            var p3 = board.create('point', [-4, 5], {name:'C', size:5, color:'#3b82f6'});
+            board.create('polygon', [p1, p2, p3], {fillColor:'#3b82f6', fillOpacity:0.4, strokeColor:'#2563eb'});
+            var r1 = board.create('reflection', [p1, axis], {name:"A'", size:4, color:'#ef4444'});
+            var r2 = board.create('reflection', [p2, axis], {name:"B'", size:4, color:'#ef4444'});
+            var r3 = board.create('reflection', [p3, axis], {name:"C'", size:4, color:'#ef4444'});
+            board.create('polygon', [r1, r2, r3], {fillColor:'#ef4444', fillOpacity:0.3, strokeColor:'#ef4444'});
+            board.create('segment', [p3, r3], {strokeColor:'#cbd5e1', dash:1});
+            board.create('text', [-6.5, 7.3, function(){
+                return "C 到軸距離 = " + Math.abs(p3.X()).toFixed(2) + "　C' 到軸距離 = " + Math.abs(r3.X()).toFixed(2);
+            }], {fontSize:14});
+            return board;
+        }
+    },
+    {
+        id: 19,
+        level: "國中",
+        name: "柱體體積 (Prism Volume)",
+        shortDesc: "體積 = 底面積 × 高。",
+        fullDesc: "任何柱體（長方體、圓柱、三角柱）都可以想成把底面「疊高」而成，所以體積等於底面積乘以高。錐體則只有同底同高柱體的三分之一。",
+        formula: "$$ V_{柱} = S_{底} \\times h,\\quad V_{錐} = \\frac{1}{3} S_{底} \\times h $$",
+        tips: "拖曳滑桿改變高度 h，觀察體積如何隨 h 成正比增加。可用滑鼠拖曳圖形旋轉視角。",
+        thumbnailSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><polygon points="40,50 110,30 160,55 90,78" fill="rgba(99,102,241,0.35)" stroke="#4f46e5" stroke-width="2"/><polygon points="40,50 40,110 90,138 90,78" fill="rgba(79,70,229,0.25)" stroke="#4f46e5" stroke-width="2"/><polygon points="90,78 160,55 160,115 90,138" fill="rgba(139,92,246,0.25)" stroke="#4f46e5" stroke-width="2"/><text x="165" y="95" font-size="13" fill="#4f46e5">h</text></svg>`,
+        initBoard: function(id) {
+            const board = JXG.JSXGraph.initBoard(id, {boundingbox: [-8, 8, 8, -8], axis:false, showCopyright:false});
+            var h = board.create('slider', [[-7, -6.5], [1, -6.5], [1, 4, 6]], {name:'h', snapWidth:0.5, precision:1});
+            var view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [0, 7]]], {
+                xPlaneRear: {visible:false}, yPlaneRear: {visible:false}, zPlaneRear: {visible:false},
+                numberOfMainGrids: 0
+            });
+            var W = 3, D = 2;  // 底面 3 × 2
+            var base = [[0,0],[W,0],[W,D],[0,D]];
+            var bot = base.map(function(p){ return view.create('point3d', [p[0], p[1], 0], {size:2, name:'', withLabel:false}); });
+            var top = base.map(function(p){ return view.create('point3d', [p[0], p[1], function(){ return h.Value(); }], {size:2, name:'', withLabel:false}); });
+            view.create('polygon3d', bot, {fillColor:'#4f46e5', fillOpacity:0.25, strokeColor:'#4f46e5'});
+            view.create('polygon3d', top, {fillColor:'#8b5cf6', fillOpacity:0.35, strokeColor:'#4f46e5'});
+            for (var i = 0; i < 4; i++) {
+                var j = (i + 1) % 4;
+                view.create('polygon3d', [bot[i], bot[j], top[j], top[i]], {fillColor:'#6366f1', fillOpacity:0.2, strokeColor:'#4f46e5'});
+            }
+            board.create('text', [-7, 7.2, function(){
+                return "底面積 = " + (W*D) + "　高 h = " + h.Value().toFixed(1);
+            }], {fontSize:15});
+            board.create('text', [-7, 6.3, function(){
+                return "V(柱) = " + (W*D*h.Value()).toFixed(2) + "　V(錐) = " + (W*D*h.Value()/3).toFixed(2);
+            }], {fontSize:16, color:'#4f46e5', fontWeight:'bold'});
+            return board;
+        }
     }
 ];
 
@@ -381,8 +671,10 @@ function renderCards() {
     const searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
 
     const filteredData = geometryData.filter(item => {
+        const level = item.level || '國中';
         const matchesSearch = item.name.toLowerCase().includes(searchTerm) || 
-                              item.shortDesc.toLowerCase().includes(searchTerm);
+                              item.shortDesc.toLowerCase().includes(searchTerm) ||
+                              level.includes(searchTerm);
         const matchesFav = showFavoritesOnly ? favorites.includes(item.id) : true;
         return matchesSearch && matchesFav;
     });
@@ -413,7 +705,7 @@ function renderCards() {
             <div class="card-img-container">${item.thumbnailSvg}</div>
             <div class="card-content">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                    <h3 class="card-title">${item.name}</h3>
+                    <h3 class="card-title"><span class="level-badge ${(item.level || '國中') === '國小' ? 'elem' : ''}">${item.level || '國中'}</span>${item.name}</h3>
                     <button class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${item.id}, this)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                     </button>
