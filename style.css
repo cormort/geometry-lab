@@ -63,20 +63,12 @@ body {
     radial-gradient(at 80% 100%, hsla(240,100%,70%,0.1) 0px, transparent 50%),
     radial-gradient(at 0% 0%, hsla(240,100%,70%,0.1) 0px, transparent 50%);
   background-attachment: fixed;
-  background-size: 200% 200%;
-  animation: mesh 20s ease infinite;
   color: var(--text-main);
   margin: 0;
   padding: 20px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-@keyframes mesh {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 /* Header */
@@ -110,7 +102,7 @@ header {
 }
 
 .theme-toggle:hover {
-  transform: rotate(15deg) scale(1.1);
+  transform: scale(1.05);
   box-shadow: var(--shadow-lg);
 }
 
@@ -158,7 +150,6 @@ h1 {
   max-width: 1280px;
   margin: 0 auto;
   padding-bottom: 80px;
-  perspective: 1000px;
 }
 
 /* Card Styling */
@@ -170,21 +161,18 @@ h1 {
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--glass-border);
   overflow: hidden;
-  transition: transform 0.1s ease-out, box-shadow 0.3s ease; /* Removed 'all' to prevent transition fighting with JS tilt */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   user-select: none;
   position: relative;
-  transform-style: preserve-3d;
-  perspective: 1000px;
 }
 
-/* Hover effect is now handled by JS for tilt, but we keep a fallback/base state */
 .card:hover {
-  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
   border-color: rgba(79, 70, 229, 0.4);
-  z-index: 10;
 }
 
 .card:active {
@@ -194,13 +182,12 @@ h1 {
 
 .card.dragging {
   opacity: 0.6;
-  transform: scale(0.95) rotate(2deg);
+  transform: scale(0.98);
   box-shadow: var(--shadow-xl);
 }
 
 .card.drag-over {
   border: 2px dashed var(--primary-color);
-  transform: scale(1.02);
 }
 
 .card-img-container {
@@ -213,7 +200,6 @@ h1 {
   padding: 20px;
   box-sizing: border-box;
   transition: background 0.3s ease;
-  transform: translateZ(20px); /* 3D Depth */
 }
 
 /* .card:hover .card-img-container {
@@ -224,11 +210,6 @@ h1 {
   max-width: 100%;
   max-height: 100%;
   filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
-  transition: transform 0.5s ease;
-}
-
-.card:hover .card-img-container svg {
-  transform: scale(1.1);
 }
 
 .card-content {
@@ -236,7 +217,6 @@ h1 {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  transform: translateZ(30px); /* 3D Depth */
   background: transparent; /* Changed from potentially inheriting */
 }
 
@@ -316,8 +296,8 @@ h1 {
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  transform: translateY(100px);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(16px);
+  transition: transform 0.25s ease-out;
   box-shadow: 0 -25px 50px rgba(0,0,0,0.25);
   color: var(--text-main);
 }
@@ -365,7 +345,7 @@ h1 {
 .close-btn:hover {
   color: #333;
   background: #e2e8f0;
-  transform: rotate(90deg);
+  transform: scale(1.1);
 }
 
 .modal-header {
@@ -477,4 +457,103 @@ footer {
 .level-badge.elem {
   background: rgba(16, 185, 129, 0.15);
   color: #10b981;
+}
+
+.modal-extra {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+@media (max-width: 900px) {
+  .modal-extra {
+    grid-template-columns: 1fr;
+  }
+}
+
+.explain-box {
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid;
+}
+
+.explain-box h4 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.explain-box ol,
+.explain-box ul {
+  margin: 0;
+  padding-left: 1.3em;
+  color: var(--text-main);
+  line-height: 1.85;
+  text-align: justify;
+}
+
+.explain-box li {
+  margin-bottom: 10px;
+}
+
+.explain-box li:last-child {
+  margin-bottom: 0;
+}
+
+.box-why {
+  background: var(--formula-bg);
+  border-color: var(--formula-border);
+}
+.box-why h4 {
+  color: var(--formula-border);
+}
+.box-why ol {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+}
+.box-why li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 2.2em;
+}
+.box-why li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 1.6em;
+  height: 1.6em;
+  line-height: 1.6em;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: #fff;
+  background: var(--formula-border);
+}
+
+.box-apply {
+  background-color: var(--keypoint-bg);
+  border-color: var(--keypoint-border);
+}
+.box-apply h4 {
+  color: var(--keypoint-text);
+}
+
+/* 使用者若在系統設定關閉動態效果，就完全不動 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .card:hover {
+    transform: none;
+  }
 }
